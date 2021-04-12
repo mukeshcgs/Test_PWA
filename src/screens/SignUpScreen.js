@@ -4,7 +4,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Formik } from 'formik';
 import * as yup from 'yup'
 
-import Slide from "./Slide";
 const { width, height } = Dimensions.get("window");
 const picture = {
     src: require('../../assets/undraw_develop_app.png'),
@@ -23,46 +22,25 @@ const loginValidationSchema = yup.object().shape({
         .string()
         .min(8, ({ min }) => `Password must be at least ${min} characters`)
         .required('Password is required'),
+    confirmpassword: yup
+        .string()
+        .min(8, ({ min }) => `Password must be at least ${min} characters`)
+        .required('Password is required'),
 })
-const LoginScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
     return (<View style={styles.container}>
         <View style={styles.upper}>
-            {/* {(Platform.OS === 'web') ? 
-                <Image source={'../assets/undraw_develop_app.png'} />
-                :
-                <Image style={styles.containerImg} source={{ uri: require('../assets/undraw_develop_app.png') }} />
-            } */}
-            {/* <Image style={styles.containerImg} source={{ uri: require('../assets/undraw_develop_app.png') }} /> */}
-            {/* {(Platform.OS === 'web') ? <img style={styles.containerImg} src="./assets/undraw_develop_app.png" /> : <Image style={styles.containerImg} source={{ uri: img }} />} */}
-            {/* <ImageBackground source={require('../../assets/undraw_develop_app.png')} style={styles.image} >
-                <Text style={styles.welcomeText}>Company Name</Text>
-            </ImageBackground> */}
             <Image
                 resizeMode="contain"
                 style={{
                     width: width,
-                    height: width * picture.height / picture.width
+                    height: (width * picture.height / picture.width) - 100
                 }}
                 source={require('../../assets/undraw_develop_app.png')} />
-            {/* <Image style={{ width: 50, height: 50 }} source={(Platform.OS === 'web') ? img : { uri: img }} /> */}
 
             <Text style={styles.companyName}>Logo</Text>
 
         </View>
-
-        {/* <View style={styles.slider}>
-            <ScrollView
-                horizontal
-                snapToInterval={width}
-                decelerationRate="fast"
-                showsHorizontalScrollIndicator={true}
-                bounces={true}
-            >
-                <Slide label="Signup" />
-                <Slide label="Login" />
-                <Slide label="Enjoy" />
-            </ScrollView>
-        </View> */}
         <View style={styles.footer}>
             <View style={{
                 ...StyleSheet.absoluteFillObject,
@@ -74,22 +52,15 @@ const LoginScreen = ({ navigation }) => {
 
                 <Formik
                     validationSchema={loginValidationSchema}
-                    initialValues={{ email: '', password: '' }}
+                    initialValues={{ email: '', password: '', confirmpassword: '' }}
                     onSubmit={values => {
                         console.log(values.email)
-                        if (values.email == "devm@mail.io" && values.password == "12345678") {
+                        if (values.email == "devm@mail.io" && values.password == "12345678" && values.confirmpassword == "") {
                             navigation.navigate('Profile')
                         }
                     }}
                 >
-                    {({
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        values,
-                        errors,
-                        isValid,
-                    }) => (
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, isValid, }) => (
                         <View>
                             <Text style={styles.lable}>Email</Text>
                             <TextInput
@@ -117,46 +88,40 @@ const LoginScreen = ({ navigation }) => {
                             {errors.password &&
                                 <Text style={styles.err}>{errors.password}</Text>
                             }
-
+                            <Text style={styles.lable}>Confirm Password</Text>
+                            <TextInput
+                                style={styles.input}
+                                name="confirmpassword"
+                                placeholder="Confirm Password"
+                                onChangeText={handleChange('confirmpassword')}
+                                onBlur={handleBlur('confirmpassword')}
+                                value={values.confirmpassword}
+                                secureTextEntry
+                            />
+                            {errors.confirmpassword &&
+                                <Text style={styles.err}>{errors.confirmpassword}</Text>
+                            }
                             <View style={styles.cta}>
                                 <TouchableOpacity
                                     style={styles.buttonDefault}
-                                    onPress={() => navigation.navigate('Sign Up')} >
-                                    <Text style={styles.btnText}> Sign Up</Text>
+                                    onPress={() => navigation.navigate('Login')} >
+                                    <Text style={styles.btnText}>Login</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.button}
                                     onPress={handleSubmit}  >
-                                    <Text style={styles.btnText}>Login</Text>
+                                    <Text style={styles.btnText}>Sign Up</Text>
                                 </TouchableOpacity>
                             </View>
-
                         </View>
                     )}
                 </Formik>
-                {/* <Text style={styles.lable}>Email</Text> */}
-                {/* <TextInput placeholder="Your Email Id" icon="mail" style={styles.input} placeholderTextColor="gray" /> */}
-                {/* <Text style={styles.lable}>Password</Text> */}
-                {/* <TextInput placeholder="Password" secureTextEntry={true} icon="mail" style={styles.input} placeholderTextColor="gray" /> */}
-
-                {/* <View style={styles.cta}>
-                    <TouchableOpacity
-                        style={styles.buttonDefault}
-                        onPress={() => navigation.navigate('Login')} >
-                        <Text style={styles.btnText}> Sign Up</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => navigation.navigate('Profile')} >
-                        <Text style={styles.btnText}>Login</Text>
-                    </TouchableOpacity>
-                </View> */}
             </View>
         </View>
     </View >
     );
 }
-export default LoginScreen
+export default SignUpScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -165,7 +130,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: (Platform.OS === 'web') ? '20vw' : 10,
     },
     upper: {
-        flex: 1,
+        flex: (Platform.OS === 'web') ? 0.2 : 1,
+
         width: "100%",
         alignItems: "center",
     },
@@ -201,16 +167,13 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         alignContent: "flex-start"
     },
-    slider: {
-        // backgroundColor: "cyan",
-        flex: 1,
-    },
+
 
     footer: {
         backgroundColor: 'blue',
         shadowColor: '#000',
         borderRadius: 6,
-        flex: 1,
+        flex: (Platform.OS === 'web') ? 0.8 : 1,
         borderTopLeftRadius: 45,
         borderTopRightRadius: 45,
         alignItems: 'center',

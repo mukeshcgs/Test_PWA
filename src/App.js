@@ -20,6 +20,8 @@ import HomeScreen from './screens/HomeScreen';
 import DetailsScreen from './screens/DetailsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SliderScreen from './screens/SliderScreen';
+import SignUpScreen from './screens/SignUpScreen';
+
 // import MyDrawer from './components/Drawer';
 
 // import { DrawerContent } from './components/DrawerContent';
@@ -49,8 +51,9 @@ const App = () => {
       {/* <SafeAreaView style={backgroundStyle}> */}
       {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor="#363636" /> */}
       <Stack.Navigator
-        initialRouteName="Slider"
+        initialRouteName="Login"
         headerMode="none"
+
       >
         <Stack.Screen
           name="Login"
@@ -76,6 +79,7 @@ const App = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Slider" component={SliderScreen} />
+        <Stack.Screen name="Sign Up" component={SignUpScreen} />
       </Stack.Navigator>
       {/* <View style={styles.container}>
         <LoginScreen />

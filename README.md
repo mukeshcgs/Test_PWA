@@ -1,38 +1,16 @@
-# Wordpress REST API + React JS
+# React Native Test 
 
-This boilerplate will help you use React JS with Wordpress REST API.
-Clone the project and install node packages:
+# Requirement: 
+Nodejs - 14.9.0 
+NPM - 6.14.8 
 
-Wordpress version : 
-```
-npm i
-```
+# Steps to Run this project 
+* clone this repository 
+* run npm install ( for mobile development make sure you have connected your device using USB ) OR get .apk from this location -"\android\app\release.app-release.apk"  
+* For web, projects use "npm run buld2" command it will generate the production build in the dist folder under the root directory. https://mukeshcgs.github.io/work/pwatest/ 
 
-To run the project on localhost:8080:
-```
-npm start
-```
-
-To build the project into /build folder:
-```
-npm run build
-```
-
-You need to have webpack and webpack-dev-server installed globally:
-* [`webpack`](http://webpack.github.io/docs/)
-```
-npm install -g webpack
-```
-
-* [`webpack-dev-server`](http://webpack.github.io/docs/webpack-dev-server.html)
-```
-npm install -g webpack-dev-server
-```
-
-Don't forget to update the Worpress installation url in DataActions.js. It's located in src/actions/DataActions.js line 7
-```
-class DataActions {
-	constructor() {
-		const appUrl = 'http://andreypokrovskiy.com/projects/wp-api'; // Wordpress installation url
-	}
-```
+# WorkflowUser 
+* login / Signup
+* Validation
+* Redirect to the drinks list ( RapidAPI )
+* User can interaction - click on delete CTA to delete the product from the list
